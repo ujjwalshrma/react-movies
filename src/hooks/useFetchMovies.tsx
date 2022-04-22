@@ -19,12 +19,14 @@ const useFetchMovies = () => {
 
   const fetchPopularMovies = async () => {
     try {
+      setIsLoading(true);
       const res = await axios.get(
         `https://api.themoviedb.org/3/movie/popular?api_key=a985693175375957a9478fced25e1744&language=en-US&page=${pageNum}`
       );
 
       const popularMovies = await res.data.results;
 
+      setIsLoading(false);
       setMovies(popularMovies);
     } catch (error: any) {
       console.log(error.message);
@@ -36,6 +38,7 @@ const useFetchMovies = () => {
     movies,
     setPageNum,
     pageNum,
+    isLoading,
   };
 };
 
