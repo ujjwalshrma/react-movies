@@ -1,17 +1,29 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-import useFetchMovies from "../../hooks/useFetchMovies";
+import { useSelector } from "react-redux";
+import useActions from "../../hooks/useAction";
+
 import MovieCard from "./MoviesCard";
 import Loader from "../UI/Loader";
 import PaginationEl from "../UI/PaginationEl";
 
 const MoviesList: React.FC = () => {
-  const { fetchPopularMovies, movies, setPageNum, pageNum, isLoading } =
-    useFetchMovies();
+  const [pageNum, setPageNum] = useState(1);
+
+  const { getPopularMovies } = useActions();
+  const { isSearching } = useSelector((state: any) => state.searching);
 
   useEffect(() => {
-    fetchPopularMovies();
-  }, [pageNum]);
+    if (!isSearching) {
+      getPopularMovies(pageNum);
+    }
+  }, [pageNum, isSearching]);
+
+  const { data: popularMovies, loading: isLoading } = useSelector(
+    (state: any) => state.getPopularMovies
+  );
+
+  //const searchedMovies = useSelector((state: any) => state.searchMovies.data);
 
   const nextPage = () => {
     if (pageNum >= 100) return;
@@ -29,7 +41,7 @@ const MoviesList: React.FC = () => {
         <Loader />
       ) : (
         <div className="flex flex-wrap justify-center py-12 gap-6">
-          {movies.map((movie) => (
+          {popularMovies.map((movie: any) => (
             <MovieCard
               key={movie.id}
               title={movie.title}
@@ -40,11 +52,13 @@ const MoviesList: React.FC = () => {
           ))}
         </div>
       )}
-      <PaginationEl
-        pageNum={pageNum}
-        onClickNext={nextPage}
-        onClickPrev={prevPage}
-      />
+      {!isSearching && (
+        <PaginationEl
+          pageNum={pageNum}
+          onClickNext={nextPage}
+          onClickPrev={prevPage}
+        />
+      )}
     </div>
   );
 };

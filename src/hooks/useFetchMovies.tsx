@@ -13,7 +13,7 @@ interface Movie {
 type MoviesList = Movie[];
 
 const useFetchMovies = () => {
-  const [movies, setMovies] = useState<MoviesList>([]);
+  const [popularMovies, setPopularMovies] = useState<MoviesList>([]);
   const [pageNum, setPageNum] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -27,7 +27,7 @@ const useFetchMovies = () => {
       const popularMovies = await res.data.results;
 
       setIsLoading(false);
-      setMovies(popularMovies);
+      setPopularMovies(popularMovies);
     } catch (error: any) {
       console.log(error.message);
     }
@@ -35,10 +35,11 @@ const useFetchMovies = () => {
 
   return {
     fetchPopularMovies,
-    movies,
+    popularMovies,
     setPageNum,
     pageNum,
     isLoading,
+    setPopularMovies,
   };
 };
 
