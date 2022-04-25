@@ -1,5 +1,9 @@
 import axios from "axios";
-import { ActionTypes, PopularActionTypes } from "../action-type/index";
+import {
+  ActionTypes,
+  PopularActionTypes,
+  GetMovieDetails,
+} from "../action-type/index";
 import { Dispatch } from "redux";
 import { Action } from "../actions/index";
 
@@ -53,6 +57,28 @@ export const setIsSearching = (value: boolean) => {
       dispatch({ type: "isSearching" });
     } else {
       dispatch({ type: "isNotSearching" });
+    }
+  };
+};
+
+export const getMovieDetails = (id?: number) => {
+  return async (dispatch: Dispatch) => {
+    dispatch({ type: GetMovieDetails.GET_MOVIE_DETAILS });
+
+    try {
+      const res = await axios.get(
+        `https://api.themoviedb.org/3/movie/${id}?api_key=a985693175375957a9478fced25e1744&language=en-US`
+      );
+
+      dispatch({
+        type: GetMovieDetails.GET_MOVIE_DETAILS_SUCCESS,
+        payload: res.data,
+      });
+    } catch (error: any) {
+      dispatch({
+        type: GetMovieDetails.GET_MOVIE_DETAILS_ERROR,
+        payload: error.message,
+      });
     }
   };
 };

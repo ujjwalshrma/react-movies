@@ -1,5 +1,6 @@
 import { useState } from "react";
 import useActions from "../../hooks/useAction";
+import { Link } from "react-router-dom";
 
 import styles from "./Navbar.module.css";
 import { AiFillRightCircle, AiOutlineUser } from "react-icons/ai";
@@ -25,9 +26,13 @@ const Navbar: React.FC = () => {
   return (
     <div className={`${styles.nav} w-full`}>
       <div className="container mx-auto flex justify-between items-center py-5 text-white">
-        <h1 onClick={goToHome} className="cursor-pointer font-bold text-xl">
+        <Link
+          to="/"
+          onClick={goToHome}
+          className="cursor-pointer font-bold text-xl"
+        >
           React Movies
-        </h1>
+        </Link>
         <form onSubmit={onSubmit} className="flex justify-center items-center">
           <input
             value={term}
