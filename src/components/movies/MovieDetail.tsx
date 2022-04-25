@@ -74,9 +74,7 @@ const MovieDetail: React.FC = () => {
           </div>
         </div>
       </div>
-      <h1 className="mt-10 font-bold text-white text-4xl">
-        Recommended Movies
-      </h1>
+      <h1 className="mt-10 font-bold text-white text-4xl">Similar Movies</h1>
       <div className="flex flex-wrap justify-center py-12 gap-6">
         {recommendedMovies &&
           recommendedMovies.map((movie: any) => (
